@@ -1,0 +1,79 @@
+In this file we're documenting the intentional deviations from canon battling rules.
+
+
+########## All Gens ##########
+
+Pledge moves don't combine the same way. Instead, if two different Pledge moves are used within two rounds, they create a field. There is no damage change for either move.
+
+Genesis Supernova is not affected by Sheer Force. This is for consistency with other moves that create a field in our code such as Plasma Fists or Bloom Doom. Allowing them to be buffed by Sheer Force would be too powerful and since our fields are stronger than canon terrains it makes more sense for Genesis Supernova to lose this interaction instead.
+
+Curse can select the target when used by a Ghost-type in doubles. Random choice didn't feel right in this case.
+
+Sparkling Aria's burn cure is prevented by Shield Dust/Covert Cloak regardless of how many targets the move has.
+
+Light Ball and Pikanium Z additionally work as an Eviolite and an Everstone.
+
+Eviolite and Eevium Z additionally work as an Everstone.
+
+The default Hidden Power type is determined by the Pokemon's personal ID instead of their IVs. This is to better support changing of Hidden Power type and to better interact with IV changing passwords (all 31, all 0, etc). Hidden Power may also be changed through in-game means, regardless of the Pokemon's personal ID.
+
+Hidden Power can be Fairy-type.
+
+Slush Rush additionally negates Hail chip for consistency with Sand Rush and also for Empoleon Crest.
+
+Judgment and Multi-Attack determine their typing secondarily from the the form of an Arceus or Silvally user respectively if no primary held item is present (no plate or memory is held). This causes Z-Crystals on Arceus to determine the typing of Judgment when canonically it would be Normal type in this context. Reason here is easier interaction with certain fields (mainly New World, but also Silvally Glitch and Holy interactions).
+
+Future Sight and Doom Desire cannot be aimed into empty battler positions (the moves will still succeed if the selected target fainted before execution). This is due to our engine currently not having a good way to visualize selecting an empty battler position.
+
+Relic Song doesn't change Meloetta's form mid-battle when used. Instead it can be used as a field move to change Meloetta's form outside of battle.
+
+Moves like Photon Geyser and Shell Side Arm account for ability/item/field modifiers that specifically modify a particular stat, unlike canon where it's only the base stat + stat stages. The mechanical reason here is because otherwise the interaction with Special stat calculation on Glitch Field would be hideously imprecise. Also it's more fun this way.
+
+Parental Bond applies the secondary effect for Secret Power on each hit as opposed to only on the final hit. Reason being we don't like the unnecessary inconsistency, especially when Secret Power is much more relevant in our games.
+
+Mind Blown when used with Parental Bond, applies the recoil damage after the final hit as opposed to after the first hit. We did not implement this behaviour as it's wildly inconsistent with how move recoil works in all other situations (and because we actively refuse to code this mess).
+
+Download / Body Press do not reflip the opponents' / attacker's defensive stats along with the stat stages in Wonder Room. Unaware attackers do not ignore the defensive swaps of opponents in Wonder Room. These interactions seem like glitches rather than intended game mechanics. It makes no sense to reflip the stats and flip the stages when the stages were never flipped in the first place.
+
+Burn Up and Double Shock, when removing the last type a Pokemon has, make the Pokemon become QMARKS type rather than truly typeless. This does not matter for the Pokemon itself, but rather for Pokemon using Transform or Reflect Type on that Pokemon. Canon uses Normal type or the Pokemon's original types as fallbacks in these cases (albeit inconsistently), but we think it makes more sense to simply copy the QMARKS type, given QMARKS already has an existence for us due to Glitch.
+
+Gems are not consumed by moves that deal a fixed amount of damage, such as Dragon Rage and Endeavor.
+
+When a Pokemon gets force-switched-in by a Pokemon with Mold Breaker (eg, with Circle Throw), its ability is not ignored while applying on-entry effects. This is because our current Mold Breaker interaction does not allow accounting for this properly and it's not worth changing it for this niche and non-intuitive interaction.
+
+Mid-move switch effects (pivot moves, force-out moves, Eject Button, Eject Pack, Emergency Exit, Red Card) are not limited to one per move. Eg, if multiple Pokemon holding an Eject Button are hit by a move, all of them will switch out (in order of speed). The reason for this is that we think the canon one-per-move limit decreases strategic depth while also making the code unnecessarily convoluted at the same time.
+
+A newly created weather, if different from the current weather but same as the permanent overworld weather, immediately becomes permanent. In canon it would run its course, disappear, and then be replaced by the same permanent overworld weather. This might be relevant for Ice Face and Protosynthesis.
+
+HP bars turn red when at or below 25% max HP, rather than below 20% max HP. This stays consistent with how these games have always drawn their health bars, and has mechanical benefit for reading when pinch activations happen.
+
+Pokemon who are at or above their evolution level, if their evolution method is specifically level-up, get a 1.2x experience boost in battle. We extend this behavior to any Pokemon that has met their evolution condition in battle.
+
+In Rejuvenation specifically, Symbiosis can transfer Crests and Mega Stones as long as they are not usable by the giver itself.
+
+
+########## Gen 7 ##########
+
+Multi-Attack uses its Gen 8+ base power even in Gen 7.
+
+Teleport uses its Gen 8+ behaviour even in Gen 7. This is to increase viability of certain Pokemon as well as to provide a strategic alternative to the legacy Ally Switch implementation.
+
+Griseous Orb and Griseous Core are separate items according to Gen 9 rules.
+
+
+########## Gen 8 ##########
+
+Gen 8+ Howl hits through the ally's Substitute. In canon it doesn't despite being a sound move.
+
+Snatch affects Jungle Healing. This is a clarification rather than deviation as the two moves never existed in one game.
+
+Court Change affects Lucky Chant. This is a clarification rather than deviation as the two moves never existed in one game.
+
+
+########## Gen 9 ##########
+
+Since overworld weather does not change the in-battle weather dynamically in our games like it does in Gen 9, we don't make overworld weather block other weather effects from working in battle even in Gen 9.
+
+Electro Shot does not work with Sheer Force. It does in canon but we believe it's a bug.
+
+The order of level 1 moves of Gen 9 level-up sets has been adjusted so that the last 4 moves match older generations. This is because due to Gen 9's handling of move relearning, the order of level 1 moves allowed particularly powerful moves to be the default moves a level 1 Pokemon spawns with, and weaker options to be move relearner only. Since our games have a cost associated with relearning, we have to be picky about which options are available for free.

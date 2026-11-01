@@ -1,0 +1,63 @@
+If you want to translate the game to a different language, here are some notes how to do it.
+
+First run the game in debug mode using this console command: ./Reborn.exe debug
+
+There are two different options. Either you use the (legacy) txt translation file or the (newer) po files.
+
+
+Translation using txt file
+
+While in debug mode, press F6 and type "pbExtractText". This will generate an intl.txt file in the game directory.
+
+In the intl.txt file you'll notice that each line is repeated twice - replace the second occurrence of each line with
+your translation.
+
+Now use debug mode again, press F6 and type "pbCompileText". This will compile your translation into a intl.dat file.
+
+Next move the intl.dat file into the patch directory and rename it according to your language.
+
+Add a patch/Init/intl.rb file with contents like this (adjust to your language):
+
+LANGUAGES = {
+  "English" => nil,
+  "Latin" => "patch/latin.dat",
+}
+
+Note that any other script changes should be done in patch/Mods directory instead.
+
+Finally of course translate any UI elements as you see fit by adding the translated equivalents into the patch directory.
+For example to translate the type icons (Graphics/Icons/type*.png) add your own patch/Graphics/Icons/type*.png files.
+
+Pack everything in the patch directory (the dat file and the Graphics, Init and Mods directories) into a zip file.
+Make sure to remove any other unrelated mods you may have been using for yourself. Distribute this zip to your players.
+
+
+Translation using po files
+
+Note: This is a newer and somewhat experimental way. The goal of this feature is to allow you to use various translation
+tools that are compatible with the standardized po and mo format.
+
+While in debug mode, press F6 and type "MessageTypes.exportPO". This will generate a localization directory with many
+po files. (There is a separate po file for each map so there will be nearly a thousand of them.)
+
+Move the files into patch/latin directory (adjust to your language).
+
+Next use the tool of your choice to open each po file and translate the lines.
+
+Add a patch/Init/intl.rb file with contents like this (adjust to your language):
+
+LANGUAGES = {
+  "English" => nil,
+  "Latin" => "patch/latin",
+}
+
+Note that any other script changes should be done in patch/Mods directory instead.
+
+Now use debug mode again, enter the game with your language selected, press F6 and type "MessageTypes.compileMO".
+This will compile your po files into mo files. It may take a while.
+
+Finally of course translate any UI elements as you see fit by adding the translated equivalents into the patch directory.
+For example to translate the type icons (Graphics/Icons/type*.png) add your own patch/Graphics/Icons/type*.png files.
+
+Pack everything in the patch directory (the language directory and the Graphics, Init and Mods directories) into a zip file.
+Make sure to remove any other unrelated mods you may have been using for yourself. Distribute this zip to your players.
